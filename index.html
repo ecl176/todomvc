@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>表情包专用</title>
+		<link rel="stylesheet" href="node_modules/todomvc-app-css/index.css">
+		<link rel="stylesheet" href="css/app.css">
+		<link rel="stylesheet" href="css/main.css">
+	</head>
+	<body ng-app = "myTodomvc">
+	<div ng-view></div>
+	<script id="main_tmpl" type="text/ng-template">	
+	<section class="todoapp">
+			<header class="header" ng-controller="mainCtrl">
+				<h1>todos</h1>
+				<form ng-submit="add()"><input class="new-todo" placeholder="What needs to be done?" ng-model="text" autofocus></form>
+			</header>
+			
+			<section class="main" ng-show="todos.length">
+				<input class="toggle-all" type="checkbox" ng-click="all()">
+				<label for="toggle-all">Mark all as complete</label>
+				<ul class="todo-list">
+					
+					<li ng-repeat="item in todos | filter:selector:equalCompare" ng-class="{completed:item.completed,editing:item.id===currentEditingId}" data-id="{{item.id}}">
+						<div class="view">
+							<input class="toggle" type="checkbox" ng-model="item.completed" ng-change="toggle()">
+							<label ng-dblclick="editing(item.id)">{{item.text}}</label>
+							<button class="destroy" ng-click="remove(item.id)"></button>
+						</div>
+						<form ng-submit="save()">
+							<input class="edit" ng-model="item.text">
+						</form>
+					</li>
+				</ul>
+			</section>
+			
+			<footer class="footer" ng-show="todos.length">
+				<!-- This should be `0 items left` by default -->
+				<span class="todo-count"><strong>{{todos.length}}</strong> item left</span>
+				<!-- Remove this if you dont implement routing -->
+				<ul class="filters">
+					<li>
+						<a ng-class="{selected:selector.completed == undefined}" href="#/">All</a>
+					</li>
+					<li>
+						<a ng-class="{selected:selector.completed == false}" href="#/active">Active</a>
+					</li>
+					<li>
+						<a ng-class="{selected:selector.completed == true}" href="#/completed">Completed</a>
+					</li>
+				</ul>
+				<!-- Hidden if no completed items are left ↓ -->
+				<button class="clear-completed" ng-click="clear()" ng-show="exisCompleted()">Clear completed</button>
+			</footer>
+		</section>
+	</script>
+		<footer class="info">
+			<p>猪哼专用</p>
+		</footer>
+		<!-- Scripts here. Don't remove ↓ -->
+		<script src="node_modules/angular/angular.js"></script>
+		<script src="node_modules/angular-route/angular-route.js"></script>
+		<script src="js/controiller/main.js"></script>
+		<script src="js/service/main.js"></script>
+		<script src="js/app.js"></script>
+	</body>
+</html>
